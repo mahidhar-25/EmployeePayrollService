@@ -1,8 +1,12 @@
 package com.bridgelabz.employeepayroll;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class EmployeePayrollService {
+    private static String CURRENT_DIRECTORY = System.getProperty("user.dir");
+    private static String EMPLOYEE_PAYROLL_DB_FOLDER_NAME = "database";
+    private static String EMPLOYEE_PAYROLL_DB_NAME = "employeePayrollData.txt";
     private String employeeId;
     private String employeeName;
     private long employeeSalary;
@@ -18,6 +22,12 @@ public class EmployeePayrollService {
         this.employeeId = employeeId;
         this.employeeName = employeeName;
         this.employeeSalary = employeeSalary;
+        try {
+            writeEmployeePayrollToDataBase(this);
+            System.out.println("Employee data appended to the file successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -70,12 +80,33 @@ public class EmployeePayrollService {
         this.employeeSalary = employeeSalary;
     }
 
+    public static void writeEmployeePayrollToDataBase(EmployeePayrollService employee) throws IOException {
+        // Check if the folder exists, create if not
+        File folder = new File(CURRENT_DIRECTORY, EMPLOYEE_PAYROLL_DB_FOLDER_NAME);
+        //if folder exist ignored if not directory will create;
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        // Check if the file exists, create if not
+        File file = new File(folder, EMPLOYEE_PAYROLL_DB_NAME);
+        //if file exist ignored if not directory will create;
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        // Append employee data to the file
+        try (PrintWriter saveEmployeePayrollToDataBase = new PrintWriter(new FileWriter(file, true))) {
+            saveEmployeePayrollToDataBase.println(employee.saveEmployeePayrollToDataBase());
+        }
+    }
+
     /*
     @desc : it takes all the required inputs for employee payroll
     @params : no params
     @return : EmployeePayrollService
      */
-    public static EmployeePayrollService  readEmployeePayrollData(){
+    public static EmployeePayrollService  readEmployeePayrollData()  {
         Scanner input = new Scanner(System.in);
         String employeeId , employeeName;
         long employeeSalary;
@@ -86,7 +117,43 @@ public class EmployeePayrollService {
         employeeName = input.nextLine();
         System.out.println("Enter employee salary : ");
         employeeSalary = input.nextLong();
-        return new EmployeePayrollService(employeeId , employeeName , employeeSalary);
+        EmployeePayrollService newEmployeePayrollService = new EmployeePayrollService(employeeId , employeeName , employeeSalary);
+
+
+
+        return newEmployeePayrollService;
+    }
+
+    /*
+    @desc : countEntriesInFile as we store employee payroll entry in a new line everytime we will keep a count on no lines
+    @parms : no params
+    @return : int - no of lines
+     */
+
+    public static int countEntriesInFile() {
+        int entryCount = 0;
+        // Updated location of the database file
+        File folder = new File(CURRENT_DIRECTORY, EMPLOYEE_PAYROLL_DB_FOLDER_NAME);
+        File file = new File(folder, EMPLOYEE_PAYROLL_DB_NAME);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            while (reader.readLine() != null) {
+                entryCount++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return entryCount;
+    }
+    /*
+@desc : saveEmployeePayrollToDataBase is a method to print all the details of the employee payroll service
+@params : no params
+@return : string
+ */
+
+    public String saveEmployeePayrollToDataBase() {
+        return "{" + "employeeId=" + employeeId + "," + "employeeName=" + employeeName + "," + "employeeSalary=" + employeeSalary + "," +'}';
     }
 
 /*

@@ -70,6 +70,10 @@ public class NewIOFileApiTest {
         Files.newDirectoryStream(playPath , path->path.toFile().isFile() && path.toString().startsWith("temp")).forEach(System.out::println);
     }
 
+    /*
+    @desc : this test case check the watch property whether it is updating correctly or not and
+     check no of files in the given directory
+     */
     @Test
     public void givenADirectoryWhenWatchedListsAllTheActivities() throws IOException{
         try {
@@ -81,4 +85,17 @@ public class NewIOFileApiTest {
         }catch (IOException ignored){}
     }
 
+/*
+@desc : this test case checks whenever there is a new Employee payroll it is updating correctly or not in db file
+ */
+    @Test
+    public void checkTheDataIsUpdatingCorectlyInDataBaseFileAsCreated(){
+        int currentEntries = EmployeePayrollService.countEntriesInFile();
+        EmployeePayrollService employee1 = new EmployeePayrollService("Mahi1" , "Mahidhar Reddy 1" , 10000);
+        EmployeePayrollService employee2 = new EmployeePayrollService("Mahi2" , "Mahidhar Reddy 2" , 20000);
+        EmployeePayrollService employee3 = new EmployeePayrollService("Mahi3" , "Mahidhar Reddy 3" , 30000);
+        EmployeePayrollService employee4 = new EmployeePayrollService("Mahi4" , "Mahidhar Reddy 4" , 40000);
+       int updatedEntries = EmployeePayrollService.countEntriesInFile();
+       assertEquals(4 , updatedEntries-currentEntries);
+    }
 }
