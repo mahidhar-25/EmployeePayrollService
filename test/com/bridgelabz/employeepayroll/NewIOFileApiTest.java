@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.stream.IntStream;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class NewIOFileApiTest {
@@ -68,4 +69,16 @@ public class NewIOFileApiTest {
         System.out.println();
         Files.newDirectoryStream(playPath , path->path.toFile().isFile() && path.toString().startsWith("temp")).forEach(System.out::println);
     }
+
+    @Test
+    public void givenADirectoryWhenWatchedListsAllTheActivities() throws IOException{
+        try {
+            Path dir = Paths.get(CURRENT_DIRECTORY + "/" + PLAY_WITH_NEW_IO_FILE);
+            Files.list(dir).filter(Files::isRegularFile).forEach(System.out::println);
+            assertEquals(9 , Files.list(dir).count());
+            //if we want to watch the directory uncomment next line
+            //new Java8WatchServiceExample(dir).processEvents();
+        }catch (IOException ignored){}
+    }
+
 }
