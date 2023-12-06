@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.Scanner;
 
 public class EmployeePayrollService {
-    private static String CURRENT_DIRECTORY = System.getProperty("user.dir");
-    private static String EMPLOYEE_PAYROLL_DB_FOLDER_NAME = "database";
-    private static String EMPLOYEE_PAYROLL_DB_NAME = "employeePayrollData.txt";
+    private static final String CURRENT_DIRECTORY = System.getProperty("user.dir");
+    private static final String EMPLOYEE_PAYROLL_DB_FOLDER_NAME = "database";
+    private static final String EMPLOYEE_PAYROLL_DB_NAME = "employeePayrollData.txt";
     private String employeeId;
     private String employeeName;
     private long employeeSalary;
@@ -124,6 +124,30 @@ public class EmployeePayrollService {
         return newEmployeePayrollService;
     }
 
+       /*
+    @desc : printAndReturnCountOfEntriesInFile as we store employee payroll entry in a new line everytime we will keep a count on no lines
+    @parms : no params
+    @return : int - no of lines
+     */
+
+    public static int printAndReturnCountOfEntriesInFile() {
+        int entryCount = 0;
+        // Updated location of the database file
+        File folder = new File(CURRENT_DIRECTORY, EMPLOYEE_PAYROLL_DB_FOLDER_NAME);
+        File file = new File(folder, EMPLOYEE_PAYROLL_DB_NAME);
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line); // Print the line
+                entryCount++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return entryCount;
+    }
     /*
     @desc : countEntriesInFile as we store employee payroll entry in a new line everytime we will keep a count on no lines
     @parms : no params
