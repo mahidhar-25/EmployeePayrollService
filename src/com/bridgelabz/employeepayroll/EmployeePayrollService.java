@@ -3,6 +3,39 @@ package com.bridgelabz.employeepayroll;
 import java.io.*;
 import java.util.Scanner;
 
+/*
+@desc :
+The EmployeePayrollService class is designed to manage and interact with employee payroll data.
+Here's a description of the key features and methods:
+
+Attributes:
+        employeeId: String - Represents the unique identifier for an employee.
+        employeeName: String - Stores the name of the employee.
+        employeeSalary: long - Holds the salary information for the employee.
+        CURRENT_DIRECTORY, EMPLOYEE_PAYROLL_DB_FOLDER_NAME, EMPLOYEE_PAYROLL_DB_NAME: Constants defining the directory and file names
+                            for storing employee data.
+
+Constructor:
+    Parametrized constructor that initializes the class attributes (employeeId, employeeName, employeeSalary) and
+    appends the employee data to a file (presumably a database file).
+
+Getters and Setters:
+    Accessor methods (getEmployeeId, getEmployeeName, getEmployeeSalary) to retrieve attribute values.
+    Mutator methods (setEmployeeId, setEmployeeName, setEmployeeSalary) to modify attribute values.
+
+File Operations:
+    writeEmployeePayrollToDataBase: Writes the employee data to a database file, creating the necessary directory and file
+    if they don't exist.
+    readEmployeePayrollData: Takes user input to create a new EmployeePayrollService object.
+
+File Reading Operations:
+    printAndReturnCountOfEntriesInFile: Prints each line of the employee database file and returns the total number of entries.
+    countEntriesInFile: Returns the total number of entries in the employee database file.
+
+String Representation:
+    saveEmployeePayrollToDataBase: Generates a string representation of the employee data.
+    toString: Overrides the toString method to provide a formatted string representation of the EmployeePayrollService object.
+ */
 public class EmployeePayrollService {
     private static final String CURRENT_DIRECTORY = System.getProperty("user.dir");
     private static final String EMPLOYEE_PAYROLL_DB_FOLDER_NAME = "database";
